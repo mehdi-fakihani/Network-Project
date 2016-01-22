@@ -16,25 +16,28 @@ public class ClientFactorial
 	private PrintStream output;
 	private Scanner input;
 	
-	ClientFactorial(String host, int port)  throws SocketException, IOException, UnknownHostException
+	ClientFactorial(InetAddress host, int port)  throws SocketException, IOException, UnknownHostException
 	{
 		socket = new Socket(host, port);
-		output = new PrintStream(socket.getOutputStream());
+		output = new PrintStream(socket.getOutputStream(), true);
 		input = new Scanner(socket.getInputStream());
 	}
 	
 	public int askForFactorial(int n)
-	{
+	{		
 		//On envoie n au serveur et on attend qu'il nous renvoie la réponse
-		System.out.println("La demande est partie");
 		output.println(n);
 		
 		//Tant qu'on ne reçoit pas de réponse, on dort
 		while(!input.hasNext())
 		{
-			try {
+			try
+			{
 				Thread.sleep(1000);
-			} catch (InterruptedException e) {
+			}
+			
+			catch (InterruptedException e)
+			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -49,18 +52,16 @@ public class ClientFactorial
 		if(args.length != 3)
 		{
 			System.out.println("Nombre d'arguments invalide");
-			System.out.println("Correct syntax: java <filename>.class <value> <adress> <port>");
+			System.out.println("Correct syntax: java ClientFactorial.class <value> <adress> <port>");
 		}
-		
 		
 		//Si il y a le bon nombre de paramètre on crée un client, on l'envoie demander au serveur le résultat
 		//et on l'affiche
 		else
 		{
 			try
-			{
-				
-				ClientFactorial client = new ClientFactorial(args[1], Integer.parseUnsignedInt(args[2]));
+			{	
+				ClientFactorial client = new ClientFactorial(InetAddress.getByName(args[1]), Integer.parseUnsignedInt(args[2]));				
 				System.out.println(client.askForFactorial(Integer.parseUnsignedInt(args[0])));
 			}
 			
