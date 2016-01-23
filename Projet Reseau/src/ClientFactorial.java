@@ -68,6 +68,8 @@ public class ClientFactorial
 			catch (NumberFormatException e)
 			{
 				// TODO Auto-generated catch block
+				System.out.println("Error!");
+				System.out.println("Correct syntax: java ClientFactorial.class <value> <adress> <port>");
 				e.printStackTrace();
 			}
 			

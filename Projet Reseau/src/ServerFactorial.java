@@ -6,6 +6,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Scanner;
 
 public class ServerFactorial
@@ -54,12 +55,19 @@ public class ServerFactorial
 			//Si n = 0 on renvoie 1
 			if(n == 0)
 				output.println(1);
+			
+			//Sinon, si la valeur se trouve dans le cache on revnoit la valeur présente dans le cache
+			else if(ServerFactorial.cache.containsKey(n))
+				output.println(ServerFactorial.cache.get(n));
+			
+			//Sinon on calcul la valeur et on l'ajoute au cache
 			else
 			{
 				try
 				{
 					ClientFactorial clientFactice = new ClientFactorial(InetAddress.getLocalHost(), serverSocket.getLocalPort());
 					int result = n * clientFactice.askForFactorial(n-1);
+					ServerFactorial.cache.put(n, result);
 					output.println(result);
 				}
 				
@@ -69,12 +77,14 @@ public class ServerFactorial
 					e.printStackTrace();
 				}
 				
-				catch (UnknownHostException e) {
+				catch (UnknownHostException e)
+				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
-				catch (IOException e) {
+				catch (IOException e)
+				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -84,6 +94,7 @@ public class ServerFactorial
 	
 	//Server part	
 	private ServerSocket serverSocket;
+	private static Hashtable<Integer, Integer> cache = new Hashtable<Integer, Integer>();
 	
 	public ServerFactorial(int port)
 	{
