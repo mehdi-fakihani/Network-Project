@@ -5,16 +5,14 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Scanner;
 
-public class ServerFactorial
+public class ServerFactorial extends Thread
 {
 	//Client part
 	class ClientThread extends Thread
 	{
-		private Socket clientSocket;
 		private Scanner input;
 		private PrintStream output;
 		
@@ -22,7 +20,6 @@ public class ServerFactorial
 		{
 			try
 			{
-				clientSocket = socket;
 				input = new Scanner(socket.getInputStream());
 				output = new PrintStream(socket.getOutputStream(), true);
 			}
@@ -110,7 +107,7 @@ public class ServerFactorial
 		}
 	}
 	
-	private void run()
+	public void run()
 	{
 		try
 		{
@@ -132,14 +129,14 @@ public class ServerFactorial
 	{
 		if(args.length != 1)
 		{
-			System.out.println("Nombre d'arguments invalide");
+			System.out.println("Number of argument is invalid");
 			System.out.println("Correct syntax: java ServerFactorial.class <port>");
 		}
 		
 		else
 		{
 			ServerFactorial server = new ServerFactorial(Integer.parseUnsignedInt(args[0]));
-			server.run();
+			server.start();
 		}
 	}
 }

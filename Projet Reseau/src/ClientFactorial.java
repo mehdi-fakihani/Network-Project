@@ -1,13 +1,10 @@
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Scanner;
-
-import jdk.internal.org.objectweb.asm.commons.SerialVersionUIDAdder;
 
 public class ClientFactorial
 {
@@ -51,7 +48,7 @@ public class ClientFactorial
 		//Si on a pas le bon nombre d'argument, on affiche un message d'erreur
 		if(args.length != 3)
 		{
-			System.out.println("Nombre d'arguments invalide");
+			System.out.println("Number of argument is invalid");
 			System.out.println("Correct syntax: java ClientFactorial.class <value> <adress> <port>");
 		}
 		
@@ -82,7 +79,7 @@ public class ClientFactorial
 			catch (UnknownHostException e)
 			{
 				// TODO Auto-generated catch block
-				System.out.println("L'hôte ne répond pas");
+				System.out.println("Can't reach the host");
 				e.printStackTrace();
 			}
 			
